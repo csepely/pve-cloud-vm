@@ -1,0 +1,49 @@
+---
+# Proxmox api access rights
+pve_vm_create_api_user: "{{ vault_pve_vm_create_api_user }}"
+pve_vm_create_api_password: "{{ vault_pve_vm_create_api_password }}"
+pve_vm_create_api_host: "{{ vault_pve_vm_create_api_host }}"
+pve_vm_create_node: "{{ vault_pve_vm_create_node }}"
+
+# default vm settings
+pve_vm_create_net:
+  net0: 'virtio,bridge=vmbr0'
+pve_vm_create_agent: yes
+pve_vm_create_cores: 2
+pve_vm_create_memory: 2560
+pve_vm_create_ostype: l26
+pve_vm_create_scsihw: virtio-scsi-pci
+pve_vm_create_storage: ssd
+pve_vm_create_format: qcow2
+pve_vm_create_vga: serial0
+pve_vm_create_serial:
+  serial0: socket
+pve_vm_create_disk_size: 32G
+pve_vm_create_ciuser: "{{ vault_pve_vm_create_ciuser }}"
+pve_vm_create_cipassword: "{{ vault_pve_vm_create_cipassword | default('') }}"
+pve_vm_create_sshkeys: []
+pve_vm_create_packages: []
+pve_vm_create_ide:
+  ide2: 'ssd:cloudinit'
+pve_vm_create_ipconfig:
+  ipconfig0: 'ip=dhcp'
+pve_vm_create_cicustom: "user=ssd:snippets/user-data-{{ default_vm_name }}"
+
+# VM images
+pve_vm_create_vm_images:
+  - name: debian-buster
+    url: https://cloud.debian.org/images/cloud/buster/latest/debian-10-genericcloud-amd64.qcow2
+    checksum: https://cloud.debian.org/images/cloud/buster/latest/SHA512SUMS
+    checksum_type: sha512
+  - name: ubuntu-bionic
+    url: https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img
+    checksum: https://cloud-images.ubuntu.com/bionic/current/SHA256SUMS
+    checksum_type: sha256
+  - name: archlinux
+    url: https://gitlab.archlinux.org/archlinux/arch-boxes/-/jobs/52048/artifacts/raw/output/Arch-Linux-x86_64-cloudimg-20220405.52048.qcow2
+    checksum: https://gitlab.archlinux.org/archlinux/arch-boxes/-/jobs/52048/artifacts/raw/output/Arch-Linux-x86_64-cloudimg-20220405.52048.qcow2.SHA256
+    checksum_type: sha256
+    proxmox_vga: std
+    cloud_init:
+      manage_etc_hosts: "false"
+default_vm_name: debian-buster

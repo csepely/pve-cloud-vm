@@ -1,0 +1,7 @@
+---
+- name: Remove downloaded VM image
+  vars:
+    vm: "{{ pve_vm_create_vm_images | selectattr('name', '==', default_vm_name) | first }}"
+  ansible.builtin.file:
+    path: "/tmp/{{ vm.url | urlsplit('path') | basename }}"
+    state: absent

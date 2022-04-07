@@ -1,0 +1,14 @@
+---
+- name: Import VM img as disk
+  vars:
+    vm: "{{ pve_vm_create_vm_images | selectattr('name', '==', default_vm_name) | first }}"
+  ansible.builtin.command: "/usr/sbin/qm importdisk \
+  {{ pve_vm_create_out.vmid }} \
+  /tmp/{{ vm.url | urlsplit('path') | basename }} \
+  {{ pve_vm_create_storage }} -format {{ pve_vm_create_format }}"
+  register: import_out
+
+- debug:
+    var: import_out
+  when: debug | default('no') | bool
+

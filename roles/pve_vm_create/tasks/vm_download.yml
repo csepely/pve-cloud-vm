@@ -1,0 +1,8 @@
+---
+- name: Download Cloud image
+  vars:
+    vm: "{{ pve_vm_create_vm_images | selectattr('name', '==', default_vm_name) | first }}"
+  ansible.builtin.get_url:
+    dest: /tmp/
+    url: "{{ vm.url }}"
+    checksum: "{{ vm.checksum_type }}:{{ vm.checksum }}"

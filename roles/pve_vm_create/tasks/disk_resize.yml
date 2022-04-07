@@ -1,0 +1,4 @@
+---
+- name: Resize disk
+  ansible.builtin.command: "/usr/sbin/qm resize \
+  {{ pve_vm_create_out.vmid }} virtio0 {{ pve_vm_create_disk_size }}"

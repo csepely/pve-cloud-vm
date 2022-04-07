@@ -1,0 +1,7 @@
+---
+- name: Create Cloud Config - user
+  vars:
+    vm: "{{ pve_vm_create_vm_images | selectattr('name', '==', default_vm_name) | first }}"
+  ansible.builtin.template:
+    src: cloud-config.j2
+    dest: "/mnt/pve/{{ pve_vm_create_storage }}/snippets/user-data-{{ default_vm_name }}"

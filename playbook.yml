@@ -1,0 +1,72 @@
+---
+- name: Import VM into Proxmox VE
+  hosts: pve_hosts
+  tasks:
+    - name: Create user cloud-config
+      tags: cloud-img
+      include_role:
+        name: pve_vm_create
+        tasks_from: cloud-config
+        apply:
+          become: yes
+          tags: cloud-config
+
+    - name: Create VM config
+      tags: cloud-img
+      include_role:
+        name: pve_vm_create
+        apply:
+          delegate_to: 127.0.0.1
+          tags: create-vm
+
+    - name: Download VM image
+      tags: cloud-img
+      include_role:
+        name: pve_vm_create
+        tasks_from: vm_download
+        apply:
+          tags: download-vm
+
+    - name: Import disk into VM
+      tags: cloud-img
+      include_role:
+        name: pve_vm_create
+        tasks_from: disk_import
+        apply:
+          become: yes
+          tags: import-disk
+
+    - name: Attach disk to VM
+      tags: cloud-img
+      include_role:
+        name: pve_vm_create
+        tasks_from: disk_attach
+        apply:
+          become: yes
+          tags: attach-disk
+
+    - name: Update VM config
+      tags: cloud-img
+      include_role:
+        name: pve_vm_create
+        tasks_from: vm_update
+        apply:
+          delegate_to: 127.0.0.1
+          tags: update-vm
+
+    - name: Resize VM disk
+      tags: cloud-img
+      include_role:
+        name: pve_vm_create
+        tasks_from: disk_resize
+        apply:
+          become: yes
+          tags: resize-disk
+
+    - name: Remove downloaded VM image
+      tags: cloud-img
+      include_role:
+        name: pve_vm_create
+        tasks_from: vm_remove_img
+        apply:
+          tags: cleanup

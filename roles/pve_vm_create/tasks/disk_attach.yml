@@ -1,0 +1,4 @@
+---
+- name: Add disk
+  ansible.builtin.command: "/usr/sbin/qm set {{ pve_vm_create_out.vmid }} \
+  -virtio0 {{ pve_vm_create_storage }}:{{ pve_vm_create_out.vmid }}/vm-{{ pve_vm_create_out.vmid }}-disk-0.qcow2,backup=0"

@@ -1,0 +1,29 @@
+---
+- name: Create default VM
+  vars:
+    vm: "{{ pve_vm_create_vm_images | selectattr('name', '==', default_vm_name) | first }}"
+  community.general.proxmox_kvm:
+    api_user: "{{ pve_vm_create_api_user }}"
+    api_password: "{{ pve_vm_create_api_password }}"
+    api_host: "{{ pve_vm_create_api_host }}"
+    name: "{{ default_vm_name }}"
+    node: "{{ pve_vm_create_node }}"
+    proxmox_default_behavior: "{{ default_behavior | default('no_defaults') }}"
+    net: "{{ pve_vm_create_net }}"
+    agent: "{{ pve_vm_create_agent | bool }}"
+    cores: "{{ pve_vm_create_cores | int }}"
+    memory: "{{ pve_vm_create_memory | int }}"
+    ostype: "{{ pve_vm_create_ostype }}"
+    scsihw: "{{ pve_vm_create_scsihw }}"
+    vga: "{{ vm.proxmox_vga | default(pve_vm_create_vga) }}"
+    serial: "{{ pve_vm_create_serial }}"
+    cicustom: "{{ pve_vm_create_cicustom | default(omit) }}"
+    tablet: no
+    ide: "{{ pve_vm_create_ide | default(omit) }}"
+    ipconfig: "{{ pve_vm_create_ipconfig | default(omit) }}"
+  register: pve_vm_create_out
+
+- name: New VM id
+  debug:
+    msg: "{{ pve_vm_create_out.vmid }}"
+  when: debug | default('no') | bool

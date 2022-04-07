@@ -1,0 +1,28 @@
+#cloud-config
+hostname: {{ default_vm_name }}
+manage_etc_hosts: {{ vm.cloud_init.manage_etc_hosts | default('true') | string }}
+user: {{ pve_vm_create_ciuser }}
+{% if pve_vm_create_cipassword | length %}
+password: {{ pve_vm_create_cipassword }}
+{% endif %}
+{% if pve_vm_create_sshkeys | length %}
+ssh_authorized_keys:
+{% for sshkey in pve_vm_create_sshkeys %}
+  - {{ sshkey }}
+{% endfor %}
+{% endif %}
+chpasswd:
+  expire: False
+users:
+  - default
+package_upgrade: true
+{% if pve_vm_create_packages | length %}
+packages:
+{% for pkgs in pve_vm_create_packages %}
+  - {{ pkgs }}
+{% endfor %}
+{% endif %}
+power_state:
+  delay: now
+  mode: reboot
+  message: Reboot needed!

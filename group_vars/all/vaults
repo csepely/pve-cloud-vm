@@ -1,0 +1,13 @@
+---
+# edit
+vault_pve_vm_create_api_user: 'root@pam'
+vault_pve_vm_create_api_password: 'password'
+vault_pve_vm_create_api_host: 192.168.0.1
+vault_pve_vm_create_node: proxmox01
+
+vault_ansible_become_password: password
+
+vault_pve_vm_create_ciuser: "user"
+vault_pve_vm_create_cipassword: "password"
+# then encrypt
+# ansible-vault encrypt vaults

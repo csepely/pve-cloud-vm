@@ -1,0 +1,14 @@
+---
+- name: Update boot, bootdisk...
+  vars:
+    vm: "{{ pve_vm_create_vm_images | selectattr('name', '==', default_vm_name) | first }}"
+  community.general.proxmox_kvm:
+    api_user: "{{ pve_vm_create_api_user }}"
+    api_password: "{{ pve_vm_create_api_password }}"
+    api_host: "{{ pve_vm_create_api_host }}"
+    name: "{{ vm.name }}"
+    node: "{{ pve_vm_create_node }}"
+    proxmox_default_behavior: "{{ default_behavior | default('no_defaults') }}"
+    boot: c
+    bootdisk: virtio0
+    update: yes
