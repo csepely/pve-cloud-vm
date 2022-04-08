@@ -14,6 +14,6 @@ The role creates a custom user cloud-config, downloads the default cloud image,
 creates a default VM in Proxmox, imports the cloud image, attachs as a disk,
 updates boot options, resizes VM disk, then cleans up.
 
-1. Edit [hosts](hosts) file.
+1. Edit [hosts.yml](hosts.yml) file.
 2. Edit [vaults](group_vars/all/vaults) secret file, then encrypt if you mind.
 3. ansible-playbook --ask-vault-pass playbook.yml
