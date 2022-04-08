@@ -10,6 +10,7 @@
         apply:
           become: yes
           tags: cloud-config
+      when: hostvars[inventory_hostname].enabled
 
     - name: Create VM config
       tags: cloud-img
@@ -18,6 +19,7 @@
         apply:
           delegate_to: 127.0.0.1
           tags: create-vm
+      when: hostvars[inventory_hostname].enabled
 
     - name: Download VM image
       tags: cloud-img
@@ -26,6 +28,7 @@
         tasks_from: vm_download
         apply:
           tags: download-vm
+      when: hostvars[inventory_hostname].enabled
 
     - name: Import disk into VM
       tags: cloud-img
@@ -35,6 +38,7 @@
         apply:
           become: yes
           tags: import-disk
+      when: hostvars[inventory_hostname].enabled
 
     - name: Attach disk to VM
       tags: cloud-img
@@ -44,6 +48,7 @@
         apply:
           become: yes
           tags: attach-disk
+      when: hostvars[inventory_hostname].enabled
 
     - name: Update VM config
       tags: cloud-img
@@ -53,6 +58,7 @@
         apply:
           delegate_to: 127.0.0.1
           tags: update-vm
+      when: hostvars[inventory_hostname].enabled
 
     - name: Resize VM disk
       tags: cloud-img
@@ -62,6 +68,7 @@
         apply:
           become: yes
           tags: resize-disk
+      when: hostvars[inventory_hostname].enabled
 
     - name: Remove downloaded VM image
       tags: cloud-img
@@ -70,3 +77,4 @@
         tasks_from: vm_remove_img
         apply:
           tags: cleanup
+      when: hostvars[inventory_hostname].enabled
