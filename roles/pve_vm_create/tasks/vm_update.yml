@@ -5,9 +5,9 @@
   community.general.proxmox_kvm:
     api_user: "{{ pve_vm_create_api_user }}"
     api_password: "{{ pve_vm_create_api_password }}"
-    api_host: "{{ pve_vm_create_api_host }}"
+    api_host: "{{ hostvars[inventory_hostname].api_host | default(pve_vm_create_api_host) }}"
     name: "{{ vm.name }}"
-    node: "{{ pve_vm_create_node }}"
+    node: "{{ hostvars[inventory_hostname].node | default(pve_vm_create_node) }}"
     proxmox_default_behavior: "{{ default_behavior | default('no_defaults') }}"
     boot: c
     bootdisk: virtio0

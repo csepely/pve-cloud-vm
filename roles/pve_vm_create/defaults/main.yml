@@ -13,7 +13,7 @@ pve_vm_create_cores: 2
 pve_vm_create_memory: 2560
 pve_vm_create_ostype: l26
 pve_vm_create_scsihw: virtio-scsi-pci
-pve_vm_create_storage: ssd
+pve_vm_create_storage: "{{ hostvars[inventory_hostname].storage | default('ssd') }}"
 pve_vm_create_format: qcow2
 pve_vm_create_vga: serial0
 pve_vm_create_serial:
@@ -24,10 +24,10 @@ pve_vm_create_cipassword: "{{ vault_pve_vm_create_cipassword | default('') }}"
 pve_vm_create_sshkeys: []
 pve_vm_create_packages: []
 pve_vm_create_ide:
-  ide2: 'ssd:cloudinit'
+  ide2: "{{ pve_vm_create_storage }}:cloudinit"
 pve_vm_create_ipconfig:
   ipconfig0: 'ip=dhcp'
-pve_vm_create_cicustom: "user=ssd:snippets/user-data-{{ default_vm_name }}"
+pve_vm_create_cicustom: "user={{ pve_vm_create_storage }}:snippets/user-data-{{ default_vm_name }}"
 
 # VM images
 pve_vm_create_vm_images:
