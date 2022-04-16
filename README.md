@@ -11,7 +11,7 @@ Currently supported cloud images:
 - feel free to extend, see pve_vm_create_vm_images variable in [main.yml](roles/pve_vm_create/defaults/main.yml)
 
 The role creates a custom user cloud-config, downloads the default cloud image,
-creates a default VM in Proxmox, imports the cloud image, attachs as a disk,
+creates a default VM in Proxmox, imports the cloud image, attaches as a disk,
 updates boot options, resizes VM disk, then cleans up.
 
 1. Edit [hosts.yml](hosts.yml) file.
